@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina - Library Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    
+    <!-- Background Elements -->
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+
+    <div id="app" class="app-container">
+        <!-- Auth View -->
+        <main id="auth-view" class="view glass-panel active">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <div class="logo">
+                        <i class="fa-solid fa-book-open-reader"></i>
+                        <h2>Lumina</h2>
+                    </div>
+                    <p>Enter the realm of knowledge.</p>
+                </div>
+
+                <!-- Login Form -->
+                <form id="login-form" class="auth-form active-form">
+                    <div class="input-group">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="login-username" placeholder="Username" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="login-password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="login-btn">
+                        <span>Sign In</span> <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                    <p class="auth-switch">New reader? <a href="#" id="to-register">Create an account</a></p>
+                </form>
+
+                <!-- Register Form -->
+                <form id="register-form" class="auth-form">
+                    <div class="input-group">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="reg-username" placeholder="Username" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="reg-email" placeholder="Email" required>
+                    </div>
+                    <div class="input-group">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="reg-password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="reg-btn">
+                        <span>Register</span> <i class="fa-solid fa-user-plus"></i>
+                    </button>
+                    <p class="auth-switch">Already a member? <a href="#" id="to-login">Sign in</a></p>
+                </form>
+
+            </div>
+        </main>
+
+        <!-- Main Dashboard View (Hidden initially) -->
+        <div id="dashboard-view" class="view">
+            <!-- Sidebar -->
+            <aside class="sidebar glass-panel">
+                <div class="logo">
+                    <i class="fa-solid fa-book-open-reader"></i>
+                    <h2>Lumina</h2>
+                </div>
+                
+                <nav class="nav-menu">
+                    <a href="#" class="nav-link active" data-target="books-section">
+                        <i class="fa-solid fa-book"></i> Browse Books
+                    </a>
+                    <a href="#" class="nav-link" data-target="my-books-section">
+                        <i class="fa-solid fa-bookmark"></i> My Books
+                    </a>
+                    <div id="admin-menu" class="hidden">
+                        <div class="nav-divider">Admin</div>
+                        <a href="#" class="nav-link" data-target="admin-dashboard-section">
+                            <i class="fa-solid fa-chart-pie"></i> Dashboard
+                        </a>
+                        <a href="#" class="nav-link" data-target="manage-books-section">
+                            <i class="fa-solid fa-gear"></i> Manage Books
+                        </a>
+                    </div>
+                </nav>
+
+                <div class="user-profile">
+                    <div class="avatar" id="sidebar-avatar" style="cursor: pointer; overflow: hidden; position: relative;">
+                        <img id="profile-img" src="" alt="Profile" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: none;">
+                        <i id="profile-icon" class="fa-solid fa-user"></i>
+                        <input type="file" id="profile-photo-input" accept="image/*" style="display: none;">
+                    </div>
+                    <div class="user-info">
+                        <p id="current-username">Reader</p>
+                        <span id="user-role" class="badge role-user">User</span>
+                    </div>
+                    <button id="logout-btn" class="btn-icon" title="Logout">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="content-area">
+                <header class="top-header glass-panel">
+                    <h1 id="page-title">Library Collection</h1>
+                    <div class="search-bar">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" id="book-search" placeholder="Search titles, authors...">
+                    </div>
+                </header>
+
+                <div class="content-wrapper scrollable">
+                    
+                    <!-- Section: Browse Books -->
+                    <section id="books-section" class="content-section active">
+                        <div class="filters">
+                            <button class="filter-btn active" data-category="all">All</button>
+                            <div id="category-filters"></div>
+                        </div>
+                        <div id="books-grid" class="books-grid">
+                            <!-- Books injected via JS -->
+                        </div>
+                    </section>
+
+                    <!-- Section: My Books -->
+                    <section id="my-books-section" class="content-section">
+                        <div id="issued-books-grid" class="books-grid">
+                            <!-- Issued Books injected via JS -->
+                        </div>
+                        <div id="no-issued-books" class="empty-state hidden">
+                            <i class="fa-solid fa-books"></i>
+                            <p>You haven't borrowed any books yet.</p>
+                        </div>
+                    </section>
+
+                    <!-- Section: Admin Dashboard -->
+                    <section id="admin-dashboard-section" class="content-section">
+                        <div class="stats-grid">
+                            <div class="stat-card glass-panel">
+                                <div class="stat-icon users"><i class="fa-solid fa-users"></i></div>
+                                <div class="stat-info">
+                                    <h3>Total Users</h3>
+                                    <p class="stat-value" id="stat-users">0</p>
+                                </div>
+                            </div>
+                            <div class="stat-card glass-panel">
+                                <div class="stat-icon books"><i class="fa-solid fa-book"></i></div>
+                                <div class="stat-info">
+                                    <h3>Total Books</h3>
+                                    <p class="stat-value" id="stat-books">0</p>
+                                </div>
+                            </div>
+                            <div class="stat-card glass-panel">
+                                <div class="stat-icon issues"><i class="fa-solid fa-hand-holding-hand"></i></div>
+                                <div class="stat-info">
+                                    <h3>Issued Books</h3>
+                                    <p class="stat-value" id="stat-issued">0</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Section: Manage Books (Admin Tools) -->
+                    <section id="manage-books-section" class="content-section">
+                        <div class="admin-actions">
+                            <button id="add-book-btn" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add New Book</button>
+                            <button id="add-cat-btn" class="btn btn-secondary"><i class="fa-solid fa-tags"></i> Add Category</button>
+                        </div>
+                        <div class="table-container glass-panel mt-4">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Title</th>
+                                        <th>Author</th>
+                                        <th>Category</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-books-table">
+                                    <!-- Rows injected via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="modal-overlay" class="modal-overlay"></div>
+
+    <!-- Add Book Modal -->
+    <div id="add-book-modal" class="modal glass-panel">
+        <div class="modal-header">
+            <h3>Add New Book</h3>
+            <button class="close-modal btn-icon"><i class="fa-solid fa-times"></i></button>
+        </div>
+        <form id="add-book-form">
+            <div class="input-group">
+                <input type="text" id="new-book-title" placeholder="Book Title" required>
+            </div>
+            <div class="input-group">
+                <input type="text" id="new-book-author" placeholder="Author Name" required>
+            </div>
+            <div class="input-group">
+                <select id="new-book-category" required>
+                    <option value="" disabled selected>Select Category</option>
+                    <!-- Options injected -->
+                </select>
+            </div>
+            <div class="input-group">
+                <input type="number" id="new-book-total" placeholder="Total Copies" min="1" required>
+            </div>
+            <div class="input-group">
+                <textarea id="new-book-desc" placeholder="Book Description" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary mt-2 w-full">Save Book</button>
+        </form>
+    </div>
+
+    <!-- Add Category Modal -->
+    <div id="add-category-modal" class="modal glass-panel">
+         <div class="modal-header">
+            <h3>Add Category</h3>
+            <button class="close-modal btn-icon"><i class="fa-solid fa-times"></i></button>
+        </div>
+        <form id="add-category-form">
+            <div class="input-group">
+                <input type="text" id="new-category-name" placeholder="Category Name" required>
+            </div>
+            <button type="submit" class="btn btn-primary mt-2 w-full">Save Category</button>
+        </form>
+    </div>
+
+    <!-- Toast Notifications container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
