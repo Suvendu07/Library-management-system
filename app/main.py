@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from .database import Base, engine
+from app.database import Base, engine
 # Import models so Base.metadata can create the tables
-from .models import book, category, issue as models_issue, user
-from .routers import auth, books, issue, categories, admin
+from app.models import book, category, issue as models_issue, user
+from app.routers import auth, books, issue, categories, admin
 from fastapi.middleware.cors import CORSMiddleware
 import os
 

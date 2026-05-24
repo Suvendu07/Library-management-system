@@ -1,4 +1,5 @@
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
 
 class Settings(BaseSettings):
     DB_USER: str
@@ -6,17 +7,20 @@ class Settings(BaseSettings):
     DB_HOST: str
     DB_PORT: int
     DB_NAME: str
-    
+
     SECRET_KEY: str
     ALGORITHM: str
     ACCESS_TOKEN_EXPIRE_MINUTES: int
-    
-    
-    EMAIL_SENDER : str
-    EMAIL_PASSWORD : str
 
-    class Config:
-        env_file = "./.env"
+    EMAIL_SENDER: str
+    EMAIL_PASSWORD: str
+    EMAIL_HOST: str
+    EMAIL_PORT: int
+
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        extra="ignore"
+    )
 
 
 settings = Settings()
